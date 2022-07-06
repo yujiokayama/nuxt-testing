@@ -4,13 +4,16 @@ WORKDIR /app
 EXPOSE 3000
 ENV HOST 0.0.0.0
 RUN apk update && \
+    apk upgrade && \
+    apk add git && \
     yarn global add create-nuxt-app
 
 # ビルド環境向け
 FROM node:16-alpine as build-env
 WORKDIR /app
 COPY . /app
-RUN apk update
+RUN apk update && \
+    apk upgrade
 RUN yarn build
 
 # 本番環境向け
